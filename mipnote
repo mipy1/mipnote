@@ -1,0 +1,51 @@
+#!/bin/bash
+
+######################################
+##  mipnote  -- a project by mipy1  ##
+######################################
+
+## Arguments given
+arg=$1
+
+## Colors!!
+red='\033[1;31m'
+purple='\033[1;35m'
+nc='\033[0m'
+
+
+## Help function lists all arguments and shows syntax
+function help_fn () {
+		echo ''
+		echo -e "  ${red}Mipnote${nc} ${purple}- A simplistic CLI note-taking app, based around git${nc}"
+		echo '  ------'
+		echo '  Syntax:'
+		echo '  mipnote [argument]'
+		echo ''
+		echo '  Arguments are as follows:'
+		echo '  -h or --help  :  returns this output'
+		echo ''
+}
+
+## Initialisation function for creating new notes repository
+function init_fn () {
+		echo 'init_fn'
+}
+
+## Main function for creating a new note
+function run_fn () {
+		echo 'run_fn'
+}
+
+## Calls necessary function
+if [ -z "${arg}" ] ; then
+		run_fn
+elif [ "${arg}" == '--help' ] || [ "${arg}" == '-h' ] || [ "${arg}" == 'help' ]; then
+		help_fn
+elif [ "${arg}" == 'init' ] ; then
+		init_fn
+else
+		echo ""
+		echo "Please enter a valid argument, or use -h or --h for help"
+		echo ""
+
+fi
