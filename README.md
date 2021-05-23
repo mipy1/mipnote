@@ -1,5 +1,6 @@
-<h1 align="center">mipnote</h1>
+<h1 align="center">✨ mipnote ✨</h1>
 <h3 align="center">A Simple CLI Note-Taking App, Based Around Git</h3>
+<h4 align="center">Use in class, at work, or just to keep track of ideas</h4>
 
 *A work in progress, no releases just yet*
 
