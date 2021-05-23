@@ -14,3 +14,4 @@ Feel free to add ideas to this (or open an issue) for features you'd like to see
     - notes directory location
     - remote repository
 - Somehow have images
+- Search for different notes containing phrase

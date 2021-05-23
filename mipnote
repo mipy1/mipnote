@@ -41,14 +41,14 @@ function init_fn () {
 		if [[ -d "notes" ]] ; then
 				read -p '  Notes directory already exists, continuing will erase it and all the notes inside [y/n]? ' response
 				if [ "${response,,}" == "y" ] || [ "${response,,}" == "yes" ] ; then
-						rm -r notes
-						mkdir notes
-						cd notes
+						rm -r "${notes_dir}"
+						mkdir "${notes_dir}"
+						cd "${notes_dir}"
 						git init
 				fi
 		else
-				mkdir notes
-				cd notes
+				mkdir "${notes_dir}"
+				cd "${notes_dir}"
 				git init
 		fi
 }
@@ -56,13 +56,23 @@ function init_fn () {
 
 ## Main function for creating a new note
 function run_fn () {
-		cd notes
+		cd "${notes_dir}"
 		read -p $'\033[1mName Of Note:\033[0m ' note_name
 		if [ -f "${note_name}" ] ; then
 				echo -e "${bold}A note with that name already exists${nc}"
 		else 
-				"${editor}" "${note_name}.md"
-		fi		
+				"${editor}" "${note_name}.md" &&
+				git add "${note_name}.md"
+				git commit -m "My Note From: $(date)"
+		fi
+
+		unset note_name
+}
+
+
+function read_fn () {
+		read -p $'\033[1mEnter Note Name To Open:\033[0m ' note_name
+		mdless "${notes_dir}/${note_name}.md"
 }
 
 
@@ -73,6 +83,8 @@ elif [ "${arg}" == '--help' ] || [ "${arg}" == '-h' ] ; then
 		help_fn
 elif [ "${arg}" == '--init' ] || [ "${arg}" == '-i' ]; then
 		init_fn
+elif [ "${arg}" == '--open' ] || [ "${arg}" == '-o' ] ; then
+		read_fn
 else
 		echo ""
 		echo "Please enter a valid argument, or use -h or --h for help"
