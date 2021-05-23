@@ -45,6 +45,8 @@ function init_fn () {
 						mkdir "${notes_dir}"
 						cd "${notes_dir}"
 						git init
+
+						unset response
 				fi
 		else
 				mkdir "${notes_dir}"
@@ -61,9 +63,9 @@ function run_fn () {
 		if [ -f "${note_name}" ] ; then
 				echo -e "${bold}A note with that name already exists${nc}"
 		else 
-				"${editor}" "${note_name}.md" &&
-				git add "${note_name}.md"
-				git commit -m "My Note From: $(date)"
+				"${editor}" "${note_name}${file_ext}" &&
+				git add "${note_name}${file_ext}"
+				git commit -m "My note \"${note_name}\", on: $(date)"
 		fi
 
 		unset note_name
@@ -71,8 +73,24 @@ function run_fn () {
 
 
 function read_fn () {
-		read -p $'\033[1mEnter Note Name To Open:\033[0m ' note_name
-		mdless "${notes_dir}/${note_name}.md"
+		if ! command -v mdless &> /dev/null ; then
+				read -p 'mdless is not installed, would you like to install it [y/n]? ' response 
+				if [ "${response,,}" == 'y' ] || [ "${response,,}" == 'yes' ] ; then
+						echo 'Installing'
+						gem install mdless &&
+
+						echo 'Successfully Installed'
+						read -p $'\033[1mEnter Note Name To Open:\033[0m ' note_name
+						mdless "${notes_dir}/${note_name}${file_ext}"
+
+				else
+						exit
+				fi
+
+		else
+				read -p $'\033[1mEnter Note Name To Open:\033[0m ' note_name
+				mdless "${notes_dir}/${note_name}${file_ext}"
+		fi
 }
 
 
