@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# Installer for mipman
+
+echo 'Installing...'
+
+# Install command
+cp mipnote /usr/bin/mipnote
+
+. mipnote.conf
+
+read -p ' Would you like to change the notes directory? (Default is ~/Documents/mipnote_notes/ [y/n]? ' response
+if [ "${response,,}" == "y" ] || [ "${response,,}" == "yes" ] ; then
+		nano mipnote.conf
+fi
+
+mkdir "${notes_dir}"
+
+# Create config
+cp mipnote.conf ${XDG_CONFIG_HOME}
