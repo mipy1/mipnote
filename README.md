@@ -9,24 +9,24 @@
 
 To configure mipnote, edit the `mipnote.conf` file
 
+To initialise a notes repository (must be run before first use):
+```bash
+mipnote -i # OR --init
+```
+
 To create a new note:
 ```bash
-./mipnote
+mipnote
 ```
 
 To get a preview of a note:
 ```bash
-./mipnote -p # OR --preview
-```
-
-To initialise a notes repository (must be run before first use):
-```bash
-./mipnote -i # OR --init
+mipnote -p # OR --preview
 ```
 
 To get help:
 ```bash
-./mipnote -h # OR --help
+mipnote -h # OR --help
 ```
 
 ### Future Features / Ideas:
