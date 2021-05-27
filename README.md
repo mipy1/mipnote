@@ -43,3 +43,4 @@ mipnote -h # OR --help
     - remote repository
 - Somehow have images
 - Search for different notes containing phrase
+
