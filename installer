@@ -2,19 +2,26 @@
 
 # Installer for mipman
 
-echo 'Installing...'
+echo ' Installing...'
 
-# Install command
+# Install mipnote script
 cp mipnote /usr/bin/mipnote
 
+# Edit config file
 . mipnote.conf
 
-read -p ' Would you like to change the notes directory? (Default is ~/Documents/mipnote_notes/ [y/n]? ' response
+echo ' Would you like to change the config file?'
+read -p ' E.g: The notes directory default location is ~/Documents/mipnote_notes/ [y/n]? ' response
 if [ "${response,,}" == "y" ] || [ "${response,,}" == "yes" ] ; then
 		nano mipnote.conf
 fi
 
-mkdir "${notes_dir}"
+# Create and initialises notes directory + Git repository
+./mipnote -i
 
 # Create config
 cp mipnote.conf ${XDG_CONFIG_HOME}
+
+(($? != 0)) && { printf '%s\n' " An error occured in installation"; exit 1; }
+
+echo ' Installation was successful!'

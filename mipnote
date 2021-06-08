@@ -27,18 +27,21 @@ function help_fn () {
 		echo -e "  ${green}Syntax:${nc}"
 		echo '  mipnote {argument}'
 		echo ''
-		echo "  If no argument is present, a new note will be created"
+		echo "  If no argument is present, you will be prompted with the name of a note to create/edit"
 		echo ''
 		echo '  Arguments are as follows:'
-		echo '  -h or --help  :  returns this output'
-		echo '  -i or --init  :  initialises a new notes repository'
+		echo '  -h or --help    :  returns this output'
+		echo '  -i or --init    :  initialises a new notes repository'
+		echo '  -p or --preview :  previews a note with the previewer set in mipnote.conf'
+		echo ''
+		echo '  To change settings, edit mipnote.conf'
 		echo ''
 }
 
 
 ## Initialisation function for creating new notes repository
 function init_fn () {
-		if [[ -d "notes" ]] ; then
+		if [[ -d "${notes_dir}" ]] ; then
 				read -p '  Notes directory already exists, continuing will erase it and all the notes inside [y/n]? ' response
 				if [ "${response,,}" == "y" ] || [ "${response,,}" == "yes" ] ; then
 						rm -r "${notes_dir}"
