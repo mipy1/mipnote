@@ -4,7 +4,7 @@
 
 *A work in progress*
 
-### Installation:
+### Installation 🐡:
 ```bash
 git clone https://github.com/mipy1/mipnote.git # Clones this repo
 cd mipnote # Enters working directory
@@ -12,7 +12,7 @@ cd mipnote # Enters working directory
 cd && rm -r mipnote # Removes redundant folder
 ```
 
-### Usage:
+### Usage 🐼:
 
 To configure mipnote, edit the `mipnote.conf` file
 
@@ -36,7 +36,7 @@ To get help:
 mipnote -h # OR --help
 ```
 
-### Future Features / Ideas:
+### Future Features / Ideas 🐌:
 **May not be up-to-date; see TODO.md**
 
 - Multiple notes topics (ideas, classes, or whatever)
