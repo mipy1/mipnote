@@ -2,7 +2,7 @@
 <h3 align="center">A Simple CLI Note-Taking App, Based Around Git</h3>
 <h4 align="center">Use in class, at work, or to keep track of ideas</h4>
 
-*A work in progress, no releases just yet*
+*A work in progress*
 
 ### Installation:
 ```bash
