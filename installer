@@ -10,8 +10,8 @@ sudo cp mipnote /usr/bin/mipnote
 # Edit config file
 . mipnote.conf
 
-echo ' Would you like to change the config file?'
-read -p ' E.g: The notes directory default location is ~/Documents/mipnote_notes/ [y/n]? ' response
+echo ' Would you like to edit the config file?'
+read -p ' E.g: If you want to change notes directory - default location is ~/Documents/mipnote_notes/ [y/n]? ' response
 if [ "${response,,}" == "y" ] || [ "${response,,}" == "yes" ] ; then
 		nano mipnote.conf
 fi
@@ -37,4 +37,4 @@ cp mipnote.conf "${XDG_CONFIG_HOME}"
 
 (($? != 0)) && { printf '%s\n' " An error occured in installation"; exit 1; }
 
-echo ' Installation was successful!'
+echo ' Installation was successful! Go edit some notes :)'
