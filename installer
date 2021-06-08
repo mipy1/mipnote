@@ -5,7 +5,7 @@
 echo ' Installing...'
 
 # Install mipnote script
-cp mipnote /usr/bin/mipnote
+sudo cp mipnote /usr/bin/mipnote
 
 # Edit config file
 . mipnote.conf
@@ -17,24 +17,23 @@ if [ "${response,,}" == "y" ] || [ "${response,,}" == "yes" ] ; then
 fi
 
 # Create and initialises notes directory + Git repository
-		if [[ -d "${notes_dir}" ]] ; then
-				read -p '  Notes directory already exists, continuing will erase it and all the notes inside [y/n]? ' response
-				if [ "${response,,}" == "y" ] || [ "${response,,}" == "yes" ] ; then
-						rm -r "${notes_dir}"
-						mkdir "${notes_dir}"
-						cd "${notes_dir}"
-						git init
-
-						unset response
-				fi
-		else
+if [[ -d "${notes_dir}" ]] ; then
+		read -p '  Notes directory already exists, continuing will erase it and all the notes inside [y/n]? ' response
+		if [ "${response,,}" == "y" ] || [ "${response,,}" == "yes" ] ; then
+				rm -r "${notes_dir}"
 				mkdir "${notes_dir}"
-				cd "${notes_dir}"
-				git init
+                git init "${notes_dir}"
+
+
+				unset response
 		fi
+else
+		mkdir "${notes_dir}"
+		git init "${notes_dir}"
+fi
 
 # Create config
-cp mipnote.conf ${XDG_CONFIG_HOME}
+cp mipnote.conf "${XDG_CONFIG_HOME}"
 
 (($? != 0)) && { printf '%s\n' " An error occured in installation"; exit 1; }
 

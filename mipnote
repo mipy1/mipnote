@@ -16,7 +16,7 @@ bold='\033[1m'
 nc='\033[0m'
 
 # Opens config file
-. mipnote.conf
+. "${XDG_CONFIG_HOME}"/mipnote.conf
 
 
 ## Help function lists all arguments and shows syntax
@@ -65,7 +65,7 @@ function run_fn () {
 		read -p $'\033[1mName Of Note:\033[0m ' note_name
 		if [ -f "${note_name}" ] ; then
 				echo -e "${bold}A note with that name already exists${nc}"
-		else 
+		else
 				"${editor}" "${note_name}${file_ext}" &&
 				git add "${note_name}${file_ext}"
 				git commit -m "My note \"${note_name}\", on: $(date)"
@@ -77,8 +77,8 @@ function run_fn () {
 
 function preview_fn () {
 		if ! command -v "${preview_ed}" &> /dev/null ; then
-				if [ "${preview_ed}" == 'mdless' ] ; then 
-						read -p 'mdless is not installed, would you like to install it [y/n]? ' response 
+				if [ "${preview_ed}" == 'mdless' ] ; then
+						read -p 'mdless is not installed, would you like to install it [y/n]? ' response
 						if [ "${response,,}" == 'y' ] || [ "${response,,}" == 'yes' ] ; then
 								echo 'Installing'
 								gem install mdless &&
