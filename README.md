@@ -1,22 +1,29 @@
 <h1 align="center">✨ mipnote ✨</h1>
 <h3 align="center">A Simple CLI Note-Taking App, Based Around Git</h3>
-<h4 align="center">Use in class, at work, or just to keep track of ideas</h4>
+<h4 align="center">Use in class, at work, or to keep track of ideas</h4>
 
 *A work in progress, no releases just yet*
 
+### Installation:
+```bash
+git clone https://github.com/mipy1/mipnote.git # Clones this repo
+cd mipnote # Enters working directory
+./installer # Runs installer script
+cd && rm -r mipnote # Removes redundant folder
+```
 
 ### Usage:
 
 To configure mipnote, edit the `mipnote.conf` file
 
-To initialise a notes repository (must be run before first use):
-```bash
-mipnote -i # OR --init
-```
-
-To create a new note:
+To create a new note, or edit an existing one:
 ```bash
 mipnote
+```
+
+To initialise a notes repository:
+```bash
+mipnote -i # OR --init
 ```
 
 To get a preview of a note:
