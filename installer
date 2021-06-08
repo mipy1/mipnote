@@ -17,7 +17,21 @@ if [ "${response,,}" == "y" ] || [ "${response,,}" == "yes" ] ; then
 fi
 
 # Create and initialises notes directory + Git repository
-./mipnote -i
+		if [[ -d "${notes_dir}" ]] ; then
+				read -p '  Notes directory already exists, continuing will erase it and all the notes inside [y/n]? ' response
+				if [ "${response,,}" == "y" ] || [ "${response,,}" == "yes" ] ; then
+						rm -r "${notes_dir}"
+						mkdir "${notes_dir}"
+						cd "${notes_dir}"
+						git init
+
+						unset response
+				fi
+		else
+				mkdir "${notes_dir}"
+				cd "${notes_dir}"
+				git init
+		fi
 
 # Create config
 cp mipnote.conf ${XDG_CONFIG_HOME}
