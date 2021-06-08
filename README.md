@@ -5,11 +5,12 @@
 *A work in progress*
 
 ### Installation 🐡:
+To install, just run:
 ```bash
-git clone https://github.com/mipy1/mipnote.git # Clones this repo
-cd mipnote # Enters working directory
-./installer # Runs installer script
-cd && rm -r mipnote # Removes redundant folder
+git clone https://github.com/mipy1/mipnote.git &&
+cd mipnote &&
+./installer &&
+cd && rm -r mipnote
 ```
 
 ### Usage 🐼:
