@@ -11,3 +11,4 @@ Feel free to add ideas to this (or open an issue) for features you'd like to see
     - remote repository
 - Somehow have images
 - Search for different notes containing phrases
+- Encryption
