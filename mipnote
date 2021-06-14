@@ -22,7 +22,7 @@ nc='\033[0m'
 ## Help function lists all arguments and shows syntax
 function help_fn () {
 		echo ''
-		echo -e "  ${red}Mipnote${nc} ${purple}- A simplistic CLI note-taking app, based around git${nc}"
+		echo -e "  ${red}Mipnote${nc} ${purple}- A highly configurable CLI note-taking app, based around git${nc}"
 		echo '  ------'
 		echo -e "  ${green}Syntax:${nc}"
 		echo '  mipnote {argument}'
@@ -33,6 +33,7 @@ function help_fn () {
 		echo '  -h or --help    :  returns this output'
 		echo '  -i or --init    :  initialises a new notes repository'
 		echo '  -p or --preview :  previews a note with the previewer set in mipnote.conf'
+		echo '  -e or --edit    :  edits an existing note'
 		echo ''
 		echo '  To change settings, edit mipnote.conf'
 		echo ''
@@ -61,13 +62,38 @@ function init_fn () {
 
 ## Main function for creating a new note
 function run_fn () {
-		cd "${notes_dir}"
-		read -p $'\033[1mName Of Note:\033[0m ' note_name
-		if [ -f "${note_name}" ] ; then
-				echo -e "${bold}A note with that name already exists${nc}"
+		if ! command -v "${editor}" &> /dev/null ; then
+				echo "${editor} is not installed, either change it in mipnote.conf, or install it"
 		else
-				"${editor}" "${note_name}${file_ext}" &&
-				git add "${note_name}${file_ext}"
+				cd "${notes_dir}"
+				read -p $'\033[1mName Of Note:\033[0m ' note_name
+				if [ -f "${note_name}" ] ; then
+						echo -e "${bold}A note with that name already exists${nc}"
+				else
+						"${editor}" "${note_name}${file_ext}" &&
+						git add "${note_name}${file_ext}"
+						git commit -m "My note \"${note_name}\", on: $(date)"
+		
+				fi
+		fi
+
+		unset note_name
+}
+
+
+## Edit function for... well editing notes!
+function edit_fn () {
+		if ! command -v "${editor}" &> /dev/null ; then
+				echo "${editor} is not installed, either change it in mipnote.conf, or install it"
+		fi
+		if ! command -v "${searcher}" &> /dev/null ; then
+				echo "${searcher} is not installed, either change it in mipnote.conf, or install it"
+		else
+				cd "${notes_dir}"
+				echo -e "${bold}Name Of Note:${nc}"
+				note_name=$(fzf)
+				"${editor}" "${note_name}" &&
+				git add "${note_name}"
 				git commit -m "My note \"${note_name}\", on: $(date)"
 		fi
 
@@ -77,26 +103,14 @@ function run_fn () {
 
 function preview_fn () {
 		if ! command -v "${preview_ed}" &> /dev/null ; then
-				if [ "${preview_ed}" == 'mdless' ] ; then
-						read -p 'mdless is not installed, would you like to install it [y/n]? ' response
-						if [ "${response,,}" == 'y' ] || [ "${response,,}" == 'yes' ] ; then
-								echo 'Installing'
-								gem install mdless &&
-
-								echo 'Successfully Installed'
-								read -p $'\033[1mEnter Note Name To Open:\033[0m ' note_name
-								"${preview_ed} ${notes_dir}/${note_name}${file_ext}"
-
-						else
-								exit
-						fi
-				else
-						echo "${preview_ed} is not installed, either change it in mipnote.conf, or install it"
-				fi
-
+				echo "${preview_ed} is not installed, either change it in mipnote.conf, or install it"
+		fi
+		if ! command -v "${previewer}" &> /dev/null ; then
+				echo "${previewer} is not installed, either change it in mipnote.conf, or install it"
 		else
-				read -p $'\033[1mEnter Note Name To Open:\033[0m ' note_name
-				mdless "${notes_dir}/${note_name}${file_ext}"
+				cd "${notes_dir}"
+				echo -e "${bold}Enter Note Name To Open:${nc} "
+				mdless "$(${previewer})"
 		fi
 }
 
@@ -110,6 +124,8 @@ elif [ "${arg}" == '--init' ] || [ "${arg}" == '-i' ]; then
 		init_fn
 elif [ "${arg}" == '--preview' ] || [ "${arg}" == '-p' ] ; then
 		preview_fn
+elif [ "${arg}" == '--edit' ] || [ "${arg}" == '-e' ] ; then
+		edit_fn
 else
 		echo ""
 		echo "Please enter a valid argument, or use -h or --h for help"

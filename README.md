@@ -1,5 +1,5 @@
 <h1 align="center">✨ mipnote ✨</h1>
-<h3 align="center">A Simple CLI Note-Taking App, Based Around Git</h3>
+<h3 align="center">A Highly Configurable CLI Note-Taking App, Based Around Git</h3>
 <h4 align="center">Use in class, at work, or to keep track of ideas</h4>
 
 *A work in progress*
@@ -42,13 +42,9 @@ mipnote -h # OR --help
 
 - Multiple notes topics (ideas, classes, or whatever)
     - directories, and ability to switch between??
-    - different branches in same directory??
-- Reading notes without editing
+	- different branches in same directory??
 - Better method of checking default editor
 - Settings
-    - default editor (maybe even, god forbid, the use of a GUI one Crowd ghasps)
-    - notes directory location
     - remote repository
 - Somehow have images
-- Search for different notes containing phrase
-
+- Search for different notes containing phrases
