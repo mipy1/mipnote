@@ -105,12 +105,12 @@ function preview_fn () {
 		if ! command -v "${preview_ed}" &> /dev/null ; then
 				echo "${preview_ed} is not installed, either change it in mipnote.conf, or install it"
 		fi
-		if ! command -v "${previewer}" &> /dev/null ; then
-				echo "${previewer} is not installed, either change it in mipnote.conf, or install it"
+		if ! command -v "${searcher}" &> /dev/null ; then
+				echo "${searcher} is not installed, either change it in mipnote.conf, or install it"
 		else
 				cd "${notes_dir}"
 				echo -e "${bold}Enter Note Name To Open:${nc} "
-				mdless "$(${previewer})"
+				"${preview_ed}" "$(${searcher})"
 		fi
 }
 
