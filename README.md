@@ -3,6 +3,8 @@
 <h4 align="center">Use in class, at work, or to keep track of ideas</h4>
 
 *A work in progress*
+*(yes, I know apps like nb and obsidian exist)*
+
 
 ### Installation 🐡:
 To install, just run:
@@ -49,3 +51,4 @@ mipnote -h # OR --help
 - Somehow have images
 - Search for different notes containing phrases
 - Encryption
+- Remove dependencies

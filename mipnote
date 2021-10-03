@@ -4,11 +4,12 @@
 ##  mipnote  -- a project by mipy1  ##
 ######################################
 
-## Initialisation stuff
+##### Initialisation Stuff #####
+
 # Arguments given
 arg=$1
 
-# Colors!!
+## Colors!!
 red='\033[1;31m'
 purple='\033[1;35m'
 green='\033[1;32m'
@@ -18,6 +19,27 @@ nc='\033[0m'
 # Opens config file
 . "${XDG_CONFIG_HOME}"/mipnote.conf
 
+
+## Checks if config file is valid
+if ! command -v "${preview_ed}" &> /dev/null ; then
+		echo "Your config file is invalid:"
+		echo "${preview_ed} is not installed, either change it in mipnote.conf, or install it"
+fi
+if ! command -v "${searcher}" &> /dev/null ; then
+		echo "Your config file is invalid:"
+		echo "${searcher} is not installed, either change it in mipnote.conf, or install it"
+fi
+if ! command -v "${editor}" &> /dev/null ; then
+		echo "Your config file is invalid:"
+		echo "${editor} is not installed, either change it in mipnote.conf, or install it"
+fi
+if ! command -v "${editor}" &> /dev/null ; then
+		echo "Your config file is invalid:"
+		echo "${editor} is not installed, either change it in mipnote.conf, or install it"
+fi
+
+
+##### Functions #####
 
 ## Help function lists all arguments and shows syntax
 function help_fn () {
@@ -34,6 +56,7 @@ function help_fn () {
 		echo '  -i or --init    :  initialises a new notes repository'
 		echo '  -p or --preview :  previews a note with the previewer set in mipnote.conf'
 		echo '  -e or --edit    :  edits an existing note'
+		echo '  -d or --delete  :  deletes an existing note'
 		echo ''
 		echo '  To change settings, edit mipnote.conf'
 		echo ''
@@ -62,20 +85,16 @@ function init_fn () {
 
 ## Main function for creating a new note
 function run_fn () {
-		if ! command -v "${editor}" &> /dev/null ; then
-				echo "${editor} is not installed, either change it in mipnote.conf, or install it"
-		else
 				cd "${notes_dir}"
-				read -p $'\033[1mName Of Note:\033[0m ' note_name
+				read -p $'  \033[1mName Of Note:\033[0m ' note_name
 				if [ -f "${note_name}" ] ; then
-						echo -e "${bold}A note with that name already exists${nc}"
+						echo -e "  ${bold}A note with that name already exists!${nc}"
 				else
 						"${editor}" "${note_name}${file_ext}" &&
 						git add "${note_name}${file_ext}"
 						git commit -m "My note \"${note_name}\", on: $(date)"
 		
 				fi
-		fi
 
 		unset note_name
 }
@@ -83,49 +102,53 @@ function run_fn () {
 
 ## Edit function for... well editing notes!
 function edit_fn () {
-		if ! command -v "${editor}" &> /dev/null ; then
-				echo "${editor} is not installed, either change it in mipnote.conf, or install it"
-		fi
-		if ! command -v "${searcher}" &> /dev/null ; then
-				echo "${searcher} is not installed, either change it in mipnote.conf, or install it"
-		else
-				cd "${notes_dir}"
-				echo -e "${bold}Name Of Note:${nc}"
-				note_name=$(fzf)
-				"${editor}" "${note_name}" &&
-				git add "${note_name}"
-				git commit -m "My note \"${note_name}\", on: $(date)"
-		fi
+		cd "${notes_dir}"
+		echo -e "  ${bold}Name Of Note:${nc}"
+		note_name=$("${searcher}")
+		"${editor}" "${note_name}" &&
+		git add "${note_name}"
+		git commit -m "My note \"${note_name}\", on: $(date)"
 
 		unset note_name
 }
 
 
+## Preview function
 function preview_fn () {
-		if ! command -v "${preview_ed}" &> /dev/null ; then
-				echo "${preview_ed} is not installed, either change it in mipnote.conf, or install it"
-		fi
-		if ! command -v "${searcher}" &> /dev/null ; then
-				echo "${searcher} is not installed, either change it in mipnote.conf, or install it"
-		else
-				cd "${notes_dir}"
-				echo -e "${bold}Enter Note Name To Open:${nc} "
-				"${preview_ed}" "$(${searcher})"
-		fi
+		cd "${notes_dir}"
+		echo -e "  ${bold}Enter Note Name To Open:${nc} "
+		"${preview_ed}" "$(${searcher})"
 }
 
 
-## Calls necessary function
+## Delete function
+function delete_fn () {
+		cd "${notes_dir}"
+		note_name=$("${searcher}")
+		read -p $'  \033[1mAre you sure you want to delete ${note_name1}?\033[0m ' response
+
+		if [[ "${response,,}" == "yes" ]] || [[ "${response,,}" == "y" ]] ; then
+				rm "${note_name}"
+		fi
+
+		unset note_name
+		unset response
+}
+
+
+##### Calls Necessary Function ######
 if [ -z "${arg}" ] ; then
 		run_fn
-elif [ "${arg}" == '--help' ] || [ "${arg}" == '-h' ] ; then
+elif [ "${arg,,}" == '--help' ] || [ "${arg,,}" == '-h' ] ; then
 		help_fn
-elif [ "${arg}" == '--init' ] || [ "${arg}" == '-i' ]; then
+elif [ "${arg,,}" == '--init' ] || [ "${arg,,}" == '-i' ]; then
 		init_fn
-elif [ "${arg}" == '--preview' ] || [ "${arg}" == '-p' ] ; then
+elif [ "${arg,,}" == '--preview' ] || [ "${arg,,}" == '-p' ] ; then
 		preview_fn
-elif [ "${arg}" == '--edit' ] || [ "${arg}" == '-e' ] ; then
+elif [ "${arg,,}" == '--edit' ] || [ "${arg,,}" == '-e' ] ; then
 		edit_fn
+elif [ "${arg,,}" == '--delete' ] || [ "${arg,,}" == '-d' ] ; then
+		delete_fn
 else
 		echo ""
 		echo "Please enter a valid argument, or use -h or --h for help"
